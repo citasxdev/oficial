@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<registro>
+  <usuario>
+    <nombre>Adrián Vega</nombre>
+    <edad>37</edad>
+    <info>Consultor de marca, aficionado al ciclismo, los documentales y los viajes improvisados de fin de semana.</info>
+    <pais>México</pais>
+    <imagen_url>https://placehold.co/640x480/e0e7ff/3730a3?text=Adrian+XML</imagen_url>
+    <numero_movil>+52 55 7000 1122</numero_movil>
+    <estado_sentimental>Viudo/a</estado_sentimental>
+    <gustos>ciclismo, documentales, escapadas</gustos>
+    <otros>Busca una relación madura, amable y con intereses compartidos.</otros>
+    <id_unico>demo-adrian-004</id_unico>
+    <fecha_registro>2026-04-09T09:15:00.000Z</fecha_registro>
+  </usuario>
+</registro>

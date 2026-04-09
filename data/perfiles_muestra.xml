@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<perfiles>
+  <perfil>
+    <nombre>Lucía Mendoza</nombre>
+    <edad>29</edad>
+    <info>Diseñadora gráfica, amante de los viajes cortos, la fotografía urbana y las conversaciones largas con café.</info>
+    <pais>España</pais>
+    <imagen_url>https://placehold.co/640x480/f5d0fe/701a75?text=Lucia+XML</imagen_url>
+    <numero_movil>+34 600 123 456</numero_movil>
+    <estado_sentimental>Soltero/a</estado_sentimental>
+    <gustos>fotografía, diseño, senderismo</gustos>
+    <otros>Busca una conexión auténtica y estable.</otros>
+    <id_unico>demo-lucia-001</id_unico>
+    <fecha_registro>2026-04-09T09:00:00.000Z</fecha_registro>
+  </perfil>
+  <perfil>
+    <nombre>Mateo Rivas</nombre>
+    <edad>34</edad>
+    <info>Ingeniero de software, fan del jazz, la cocina casera y los planes tranquilos de fin de semana.</info>
+    <pais>Argentina</pais>
+    <imagen_url>https://placehold.co/640x480/dbeafe/1d4ed8?text=Mateo+XML</imagen_url>
+    <numero_movil>+54 11 5555 0101</numero_movil>
+    <estado_sentimental>Soltero/a</estado_sentimental>
+    <gustos>jazz, tecnología, cocina</gustos>
+    <otros>Valora el sentido del humor y la comunicación clara.</otros>
+    <id_unico>demo-mateo-002</id_unico>
+    <fecha_registro>2026-04-09T09:05:00.000Z</fecha_registro>
+  </perfil>
+  <perfil>
+    <nombre>Camila Torres</nombre>
+    <edad>31</edad>
+    <info>Profesora de idiomas, apasionada por el cine independiente, los libros y los proyectos creativos.</info>
+    <pais>Colombia</pais>
+    <imagen_url>https://placehold.co/640x480/fce7f3/9d174d?text=Camila+XML</imagen_url>
+    <numero_movil>+57 300 123 7890</numero_movil>
+    <estado_sentimental>Es complicado</estado_sentimental>
+    <gustos>cine, literatura, idiomas</gustos>
+    <otros>Le interesan personas curiosas, sensibles y consistentes.</otros>
+    <id_unico>demo-camila-003</id_unico>
+    <fecha_registro>2026-04-09T09:10:00.000Z</fecha_registro>
+  </perfil>
+</perfiles>

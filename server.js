@@ -1,132 +1,178 @@
 const express = require('express');
 const cors = require('cors');
-const fs = require('fs');
 const path = require('path');
-const xml2js = require('xml2js');
-const nodemailer = require('nodemailer');
-const crypto = require('crypto');
 require('dotenv').config();
 
+const {
+  ensureDataDirectory,
+  listProfiles,
+  createAndStoreProfile,
+} = require('./src/services/profileService');
+const { isMailConfigured, sendProfileByEmail } = require('./src/services/mailService');
+const { isDriveConfigured, uploadXmlToDrive } = require('./src/services/driveService');
+
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = Number(process.env.PORT || 5000);
+const PUBLIC_DIR = path.join(__dirname, 'public');
+const DEFAULT_NOTIFICATION_EMAIL = process.env.MAIL_DEFAULT_TO || '';
 
-app.use(cors());
-app.use(express.json());
+ensureDataDirectory();
+
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN
+      ? process.env.CORS_ORIGIN.split(',').map((value) => value.trim())
+      : true,
+  }),
+);
+app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '../frontend')));
+app.use(express.static(PUBLIC_DIR));
 
-const DATA_DIR = path.join(__dirname, 'data');
-if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR);
+app.get('/api/health', (_req, res) => {
+  res.json({
+    ok: true,
+    service: 'dating-xml-platform',
+    timestamp: new Date().toISOString(),
+  });
+});
 
-const ALGORITHM = 'aes-256-cbc';
-const SECRET_KEY = crypto.scryptSync(process.env.ENCRYPT_KEY || 'clave_super_segura_dating_xml_2024', 'salt', 32);
-const IV_LENGTH = 16;
+app.get('/api/integraciones', (_req, res) => {
+  res.json({
+    gmail: {
+      enabled: isMailConfigured(),
+      defaultRecipientConfigured: Boolean(DEFAULT_NOTIFICATION_EMAIL),
+    },
+    googleDrive: {
+      enabled: isDriveConfigured(),
+      autoSync: isDriveConfigured(),
+    },
+  });
+});
 
-function encryptXml(xmlString) {
-  const iv = crypto.randomBytes(IV_LENGTH);
-  const cipher = crypto.createCipheriv(ALGORITHM, SECRET_KEY, iv);
-  let encrypted = cipher.update(xmlString, 'utf8', 'hex');
-  encrypted += cipher.final('hex');
-  return { encrypted, iv: iv.toString('hex') };
-}
-
-function decryptXml(encryptedHex, ivHex) {
-  const iv = Buffer.from(ivHex, 'hex');
-  const encryptedText = Buffer.from(encryptedHex, 'hex');
-  const decipher = crypto.createDecipheriv(ALGORITHM, SECRET_KEY, iv);
-  let decrypted = decipher.update(encryptedText, 'hex', 'utf8');
-  decrypted += decipher.final('utf8');
-  return decrypted;
-}
-
-function generateUniqueId() {
-  const timestamp = Date.now().toString(36);
-  const random = Math.random().toString(36).substring(2, 8);
-  const hash = crypto.createHash('sha256').update(timestamp + random + process.pid).digest('hex').slice(0, 8);
-  return `${timestamp}-${random}-${hash}`;
-}
-
-app.get('/api/perfiles', (req, res) => {
-  let perfilesList = [];
+app.get('/api/perfiles', async (_req, res) => {
   try {
-    const files = fs.readdirSync(DATA_DIR).filter(f => f.endsWith('.xml') || f.endsWith('.enc.xml'));
-    const parser = new xml2js.Parser({ explicitArray: false });
-    for (const file of files) {
-      let xmlContent = fs.readFileSync(path.join(DATA_DIR, file), 'utf-8');
-      let isEncrypted = file.endsWith('.enc.xml');
-      let parsedData = null;
-      try {
-        if (isEncrypted) {
-          const lines = xmlContent.split('\n');
-          const ivLine = lines.find(l => l.startsWith('<!--IV:'));
-          if (ivLine) {
-            const ivHex = ivLine.match(/<!--IV:([a-f0-9]+)-->/)[1];
-            const encryptedPart = lines.filter(l => !l.startsWith('<!--IV:')).join('\n');
-            const decryptedXml = decryptXml(encryptedPart.trim(), ivHex);
-            parser.parseString(decryptedXml, (err, result) => {
-              if (!err && result?.registro?.usuario) parsedData = result.registro.usuario;
-              else if (!err && result?.perfiles?.perfil) parsedData = Array.isArray(result.perfiles.perfil) ? result.perfiles.perfil : [result.perfiles.perfil];
-            });
-          }
-        } else {
-          parser.parseString(xmlContent, (err, result) => {
-            if (!err && result?.registro?.usuario) parsedData = result.registro.usuario;
-            else if (!err && result?.perfiles?.perfil) parsedData = Array.isArray(result.perfiles.perfil) ? result.perfiles.perfil : [result.perfiles.perfil];
-          });
-        }
-        if (parsedData) {
-          if (Array.isArray(parsedData)) perfilesList.push(...parsedData.map(p => ({ ...p, cifrado: isEncrypted })));
-          else perfilesList.push({ ...parsedData, cifrado: isEncrypted });
-        } else {
-          perfilesList.push({ nombre: 'Perfil cifrado no descifrable', edad: '??', pais: '??', estado_sentimental: '??', gustos: '??', info: 'Contenido protegido', imagen_url: '', cifrado: true });
-        }
-      } catch (err) {
-        perfilesList.push({ nombre: 'Perfil corrupto/cifrado', edad: '??', pais: '??', estado_sentimental: '??', gustos: '??', info: 'No se pudo leer', imagen_url: '', cifrado: true });
-      }
-    }
-    setTimeout(() => res.json({ perfiles: perfilesList }), 30);
+    const perfiles = await listProfiles();
+    res.json({ perfiles });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al leer archivos XML' });
+    console.error('Error leyendo perfiles:', error);
+    res.status(500).json({ error: 'No se pudieron cargar los perfiles XML.' });
   }
 });
 
 app.post('/api/registro', async (req, res) => {
-  const { nombre, edad, info, pais, imagenUrl, movil, estado, gustos, otros, cifrar } = req.body;
-  const usuario = {
-    nombre, edad, info, pais, imagen_url: imagenUrl,
-    numero_movil: movil, estado_sentimental: estado, gustos, otros,
-    id_unico: generateUniqueId(),
-    fecha_registro: new Date().toISOString()
-  };
-  const builder = new xml2js.Builder();
-  let xml = builder.buildObject({ registro: { usuario } });
-  let filename = `registro_${Date.now()}_${nombre.replace(/\s/g, '_')}.xml`;
-  let finalXml = xml;
-  if (cifrar) {
-    const { encrypted, iv } = encryptXml(xml);
-    finalXml = `<!--IV:${iv}-->\n${encrypted}`;
-    filename = filename.replace('.xml', '.enc.xml');
-  }
-  const filepath = path.join(DATA_DIR, filename);
-  fs.writeFileSync(filepath, finalXml, 'utf-8');
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
-  });
-  try {
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: 'verificado.y.seguro@gmail.com',
-      subject: `Nuevo registro - ${nombre} - ID ${usuario.id_unico}`,
-      text: `Adjunto XML del usuario. Cifrado: ${cifrar}`,
-      attachments: [{ filename, content: finalXml }]
+  const {
+    nombre,
+    edad,
+    info,
+    pais,
+    imagenUrl,
+    movil,
+    estado,
+    gustos,
+    otros,
+    cifrar,
+    destinoEmail,
+  } = req.body;
+
+  const camposRequeridos = { nombre, edad, info, pais, imagenUrl, movil, estado, gustos };
+  const faltantes = Object.entries(camposRequeridos)
+    .filter(([, value]) => !String(value || '').trim())
+    .map(([key]) => key);
+
+  if (faltantes.length > 0) {
+    return res.status(400).json({
+      error: `Faltan campos obligatorios: ${faltantes.join(', ')}`,
     });
-    res.json({ mensaje: 'Registro exitoso. XML guardado y enviado.' });
+  }
+
+  try {
+    const registro = await createAndStoreProfile({
+      nombre,
+      edad,
+      info,
+      pais,
+      imagenUrl,
+      movil,
+      estado,
+      gustos,
+      otros,
+      cifrar: Boolean(cifrar),
+    });
+
+    const requestedRecipient = String(destinoEmail || '').trim();
+    const recipients = [requestedRecipient, DEFAULT_NOTIFICATION_EMAIL].filter(Boolean);
+    const integrationResults = {
+      gmail: { enabled: isMailConfigured(), sent: false, recipients: recipients.length },
+      googleDrive: { enabled: isDriveConfigured(), synced: false },
+    };
+
+    if (integrationResults.gmail.enabled && recipients.length > 0) {
+      try {
+        const mailResult = await sendProfileByEmail({
+          to: recipients,
+          subject: `Perfil XML creado: ${registro.profile.nombre}`,
+          text: [
+            `Se ha generado un nuevo perfil XML en la plataforma.`,
+            `ID: ${registro.profile.id_unico}`,
+            `Nombre: ${registro.profile.nombre}`,
+            `Cifrado: ${registro.isEncrypted ? 'Sí' : 'No'}`,
+          ].join('\n'),
+          filename: registro.filename,
+          content: registro.fileContent,
+        });
+
+        integrationResults.gmail.sent = true;
+        integrationResults.gmail.messageId = mailResult.messageId;
+      } catch (mailError) {
+        integrationResults.gmail.error = mailError.message;
+      }
+    }
+
+    if (integrationResults.googleDrive.enabled) {
+      try {
+        const driveResult = await uploadXmlToDrive({
+          filename: registro.filename,
+          filepath: registro.filepath,
+        });
+        integrationResults.googleDrive.synced = true;
+        integrationResults.googleDrive.fileId = driveResult.id;
+        integrationResults.googleDrive.webViewLink = driveResult.webViewLink;
+      } catch (driveError) {
+        integrationResults.googleDrive.error = driveError.message;
+      }
+    }
+
+    const warnings = [];
+    if (requestedRecipient && (!integrationResults.gmail.enabled || !integrationResults.gmail.sent)) {
+      warnings.push('El XML se guardó, pero no pudo enviarse por correo con la configuración actual.');
+    }
+    if (integrationResults.googleDrive.enabled && !integrationResults.googleDrive.synced) {
+      warnings.push('El XML se guardó localmente, pero falló la sincronización con Google Drive.');
+    }
+
+    return res.status(201).json({
+      mensaje: warnings.length
+        ? 'Registro guardado con advertencias de integración.'
+        : 'Registro guardado correctamente.',
+      archivo: registro.filename,
+      perfilId: registro.profile.id_unico,
+      cifrado: registro.isEncrypted,
+      integraciones: integrationResults,
+      warnings,
+    });
   } catch (error) {
-    console.error('Error email:', error);
-    res.status(500).json({ error: 'Registro guardado localmente, pero falló el envío de email.' });
+    console.error('Error al registrar perfil:', error);
+    return res.status(500).json({
+      error: 'No se pudo registrar el perfil XML.',
+    });
   }
 });
 
-app.listen(PORT, () => console.log(`✅ Servidor activo en http://localhost:${PORT}`));
+app.get('*', (_req, res) => {
+  res.sendFile(path.join(PUBLIC_DIR, 'index.html'));
+});
+
+app.listen(PORT, () => {
+  console.log(`Servidor activo en http://localhost:${PORT}`);
+});

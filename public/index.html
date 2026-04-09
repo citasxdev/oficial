@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dating XML Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__content">
+        <p class="hero__eyebrow">Plataforma XML organizada y sincronizable</p>
+        <h1>Gestiona perfiles XML, envíalos por Gmail y sincronízalos con Google Drive</h1>
+        <p class="hero__lead">
+          La plataforma ahora concentra la creación, visualización y distribución de perfiles XML
+          desde una interfaz más clara, con soporte para cifrado opcional y sincronización remota.
+        </p>
+        <div class="hero__actions">
+          <a href="#perfiles" class="button button--primary">Ver perfiles</a>
+          <a href="#registro" class="button button--secondary">Crear perfil XML</a>
+        </div>
+      </div>
+      <aside class="status-card">
+        <h2>Estado de integraciones</h2>
+        <div id="integrationStatus" class="status-list">
+          <div class="status-item">Cargando estado de Gmail y Google Drive...</div>
+        </div>
+      </aside>
+    </header>
+
+    <main class="layout">
+      <section id="perfiles" class="panel">
+        <div class="section-heading">
+          <div>
+            <p class="section-label">Biblioteca XML</p>
+            <h2>Perfiles disponibles en la plataforma</h2>
+          </div>
+          <button id="refreshProfiles" class="button button--ghost" type="button">
+            <i class="fa-solid fa-rotate-right"></i>
+            Actualizar
+          </button>
+        </div>
+        <div id="perfilesContainer" class="profiles-grid">
+          <p class="empty-state">Cargando perfiles XML...</p>
+        </div>
+      </section>
+
+      <section id="registro" class="panel panel--form">
+        <div class="section-heading">
+          <div>
+            <p class="section-label">Nuevo perfil</p>
+            <h2>Crear y distribuir un perfil XML</h2>
+          </div>
+        </div>
+
+        <form id="registroForm" class="form-grid">
+          <label>
+            <span>Nombre completo</span>
+            <input type="text" name="nombre" required />
+          </label>
+          <label>
+            <span>Edad</span>
+            <input type="number" name="edad" min="18" required />
+          </label>
+          <label>
+            <span>País</span>
+            <input type="text" name="pais" required />
+          </label>
+          <label>
+            <span>Estado sentimental</span>
+            <select name="estado" required>
+              <option value="">Selecciona una opción</option>
+              <option value="Soltero/a">Soltero/a</option>
+              <option value="En una relación">En una relación</option>
+              <option value="Es complicado">Es complicado</option>
+              <option value="Viudo/a">Viudo/a</option>
+            </select>
+          </label>
+          <label class="form-grid__full">
+            <span>URL de imagen</span>
+            <input type="url" name="imagenUrl" required />
+          </label>
+          <label>
+            <span>Teléfono o móvil</span>
+            <input type="tel" name="movil" required />
+          </label>
+          <label>
+            <span>Enviar XML a Gmail</span>
+            <input
+              type="email"
+              name="destinoEmail"
+              placeholder="destinatario@gmail.com"
+            />
+          </label>
+          <label class="form-grid__full">
+            <span>Gustos e intereses</span>
+            <input type="text" name="gustos" required />
+          </label>
+          <label class="form-grid__full">
+            <span>Información personal</span>
+            <textarea name="info" rows="4" required></textarea>
+          </label>
+          <label class="form-grid__full">
+            <span>Otros elementos</span>
+            <textarea name="otros" rows="3"></textarea>
+          </label>
+          <label class="checkbox-row form-grid__full">
+            <input type="checkbox" name="cifrar" />
+            <span>Cifrar el XML antes de guardarlo y sincronizarlo</span>
+          </label>
+          <div class="form-grid__full form-actions">
+            <button class="button button--primary" type="submit">
+              <i class="fa-solid fa-file-export"></i>
+              Crear perfil XML
+            </button>
+          </div>
+        </form>
+        <div id="mensajeRegistro" class="form-message" aria-live="polite"></div>
+      </section>
+
+      <section class="panel panel--info">
+        <div class="section-heading">
+          <div>
+            <p class="section-label">Flujo de trabajo</p>
+            <h2>Cómo funciona la plataforma</h2>
+          </div>
+        </div>
+        <div class="info-grid">
+          <article>
+            <h3>1. Crear</h3>
+            <p>El formulario genera un XML normalizado con identificador único y fecha de registro.</p>
+          </article>
+          <article>
+            <h3>2. Enviar</h3>
+            <p>Si Gmail está configurado, el perfil puede enviarse directamente como adjunto XML.</p>
+          </article>
+          <article>
+            <h3>3. Sincronizar</h3>
+            <p>Si Google Drive está conectado, cada archivo queda sincronizado en la carpeta indicada.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Dating XML Platform · Reorganizado para una gestión más clara del repositorio y de los perfiles XML.</p>
+    </footer>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
