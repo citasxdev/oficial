@@ -1,89 +1,62 @@
-# Dating XML Platform
+# Dating XML Platform 2.0
 
-**Dating XML Platform** es una aplicación web reorganizada para crear, visualizar y distribuir perfiles XML desde una interfaz más clara. El proyecto ahora separa el frontend, la lógica del servidor y los servicios de integración, y añade un flujo preparado para **enviar perfiles XML por Gmail** y **sincronizarlos con Google Drive**.
+Plataforma web avanzada para la creación, visualización, envío por Gmail y sincronización automática con Google Drive de perfiles XML.
 
-## Estructura del repositorio
+## 🚀 Novedades de la Versión 2.0
 
-| Ruta | Propósito |
-| --- | --- |
-| `public/` | Interfaz web estática, estilos y lógica del navegador. |
-| `src/services/` | Servicios de perfiles XML, correo y Google Drive. |
-| `src/utils/` | Utilidades compartidas, como cifrado. |
-| `data/` | Archivos XML visibles en la plataforma y registros generados. |
-| `.env.example` | Variables de entorno necesarias para Gmail, SMTP y Google Drive. |
-| `server.js` | API Express y servidor principal. |
+- **Enriquecimiento Visual y Auditivo**: Nueva interfaz moderna con animaciones CSS, transiciones suaves, efectos de sonido y recursos visuales optimizados.
+- **Seguridad Mejorada**: Implementación de cabeceras de seguridad y limpieza de rutinas legacy.
+- **Permisos Automatizados**: Los permisos del navegador se gestionan de forma automática e inteligente, eliminando la necesidad de una sección manual de permisos.
+- **Respaldo Inteligente en Drive**: Sistema de respaldo que organiza los perfiles en carpetas automáticas por fecha, eliminando estructuras antiguas para mantener el almacenamiento eficiente.
+- **Perfiles de Muestra**: Incluye ejemplos XML listos para ser mostrados en la plataforma.
 
-## Funcionalidades principales
+## 📁 Estructura del Repositorio
 
-| Funcionalidad | Descripción |
-| --- | --- |
-| Visualización de perfiles | Lee archivos XML desde `data/` y los muestra automáticamente en la interfaz. |
-| Registro de perfiles | Genera un nuevo XML normalizado desde el formulario web. |
-| Cifrado opcional | Permite guardar el XML cifrado en formato `.enc.xml`. |
-| Envío por Gmail | Envía el XML generado como archivo adjunto a la dirección indicada. |
-| Sincronización con Google Drive | Sube o actualiza automáticamente el XML en una carpeta remota configurada. |
-| Estado de integraciones | La interfaz consulta si Gmail y Drive están disponibles. |
+| Carpeta / Archivo | Descripción |
+| :--- | :--- |
+| `public/` | Frontend: HTML5, CSS3 moderno y JS con soporte de audio y animaciones. |
+| `public/assets/` | Recursos multimedia (imágenes, sonidos, animaciones). |
+| `src/services/` | Lógica de negocio: Gmail (Nodemailer), Drive (Google APIs) y perfiles. |
+| `src/utils/` | Utilidades de cifrado y seguridad. |
+| `data/` | Almacenamiento local de perfiles XML y ejemplos de muestra. |
+| `server.js` | Servidor Express con rutas API optimizadas. |
+| `.env.example` | Plantilla de configuración de variables de entorno. |
 
-## Perfiles XML de muestra
+## 🛠️ Instalación y Configuración
 
-Se añadieron varios archivos de ejemplo dentro de `data/` para que el catálogo se vea poblado desde el primer arranque. La API ya expone estos perfiles en `/api/perfiles`, y la interfaz los renderiza automáticamente.
+1. **Clonar el repositorio**:
+   ```bash
+   git clone https://github.com/citasxdev/oficial.git
+   cd oficial
+   ```
 
-## Instalación
+2. **Instalar dependencias**:
+   ```bash
+   pnpm install
+   ```
 
-```bash
-pnpm install
-pnpm start
-```
+3. **Configurar variables de entorno**:
+   Copia `.env.example` a `.env` y completa los valores requeridos para Gmail y Google Drive.
+   ```bash
+   cp .env.example .env
+   ```
 
-Por defecto, la aplicación queda disponible en `http://localhost:5000`.
+4. **Configuración de Google Drive**:
+   - Asegúrate de tener una **Cuenta de Servicio** de Google Cloud.
+   - Proporciona el `GOOGLE_DRIVE_PARENT_ID` (ID de la carpeta raíz en Drive).
+   - El sistema se encargará de crear subcarpetas automáticas de respaldo.
 
-## Configuración de entorno
+## 🖥️ Uso de la Plataforma
 
-Copia `.env.example` a `.env` y completa las variables necesarias.
+- **Inicio**: Accede a `http://localhost:5000` para ver la nueva interfaz.
+- **Creación**: Completa el formulario para generar un nuevo perfil XML. Puedes elegir cifrar el contenido para mayor privacidad.
+- **Gmail**: Introduce un correo en el formulario para enviar el XML generado directamente como adjunto.
+- **Sincronización**: Si Drive está configurado, el archivo se subirá automáticamente a la carpeta de respaldo del día.
 
-### Gmail
+## 🔒 Seguridad y Permisos
 
-Para usar Gmail con Nodemailer, conviene configurar una **contraseña de aplicación** asociada a la cuenta que enviará los XML.
+- La plataforma utiliza políticas de seguridad modernas para proteger los datos de los usuarios.
+- Los permisos de geolocalización y notificaciones se solicitan de forma automática según las mejores prácticas de UX, eliminando fricciones innecesarias.
 
-```env
-GMAIL_USER=tu-cuenta@gmail.com
-GMAIL_APP_PASSWORD=tu-app-password
-MAIL_FROM=Dating XML Platform <tu-cuenta@gmail.com>
-MAIL_DEFAULT_TO=
-```
-
-También se admite SMTP genérico si se prefiere otro proveedor.
-
-### Google Drive
-
-La sincronización con Drive está preparada para funcionar con una **cuenta de servicio** y una carpeta de destino compartida con dicha cuenta.
-
-```env
-GOOGLE_DRIVE_FOLDER_ID=
-GOOGLE_SERVICE_ACCOUNT_KEY_FILE=
-GOOGLE_SERVICE_ACCOUNT_EMAIL=
-GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY=
-```
-
-## Flujo de uso
-
-| Paso | Resultado |
-| --- | --- |
-| El usuario completa el formulario | Se normalizan los campos y se genera el XML. |
-| Se guarda el archivo en `data/` | El perfil pasa a estar disponible para la plataforma. |
-| Si hay destinatario y Gmail está configurado | El sistema envía el XML como adjunto. |
-| Si Google Drive está configurado | El archivo se sincroniza con la carpeta remota. |
-| La interfaz recarga el catálogo | El nuevo perfil aparece junto a los perfiles de muestra. |
-
-## Endpoints principales
-
-| Método | Ruta | Descripción |
-| --- | --- | --- |
-| `GET` | `/api/health` | Verifica que el servidor esté operativo. |
-| `GET` | `/api/integraciones` | Informa el estado de Gmail y Google Drive. |
-| `GET` | `/api/perfiles` | Devuelve los perfiles XML visibles. |
-| `POST` | `/api/registro` | Crea un nuevo perfil XML y ejecuta envíos o sincronización si están disponibles. |
-
-## Notas de despliegue
-
-La integración quedó implementada a nivel de aplicación, pero para que el envío por Gmail y la sincronización con Google Drive funcionen en producción es necesario aportar credenciales reales mediante variables de entorno. Mientras no se configuren, el sistema seguirá creando y mostrando perfiles XML, y devolverá advertencias claras cuando no pueda completar el envío o la sincronización.
+---
+*Plataforma desarrollada para la gestión eficiente y segura de datos XML en entornos de citas.*

@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dating XML Platform</title>
+    <title>Dating XML Platform | Gestión Avanzada de Perfiles</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link
@@ -19,19 +19,23 @@
   <body>
     <header class="hero">
       <div class="hero__content">
-        <p class="hero__eyebrow">Plataforma XML organizada y sincronizable</p>
-        <h1>Gestiona perfiles XML, envíalos por Gmail y sincronízalos con Google Drive</h1>
+        <p class="hero__eyebrow">Plataforma XML Organizada</p>
+        <h1>Gestiona perfiles XML, sincroniza con Google Drive y envía por Gmail</h1>
         <p class="hero__lead">
-          La plataforma ahora concentra la creación, visualización y distribución de perfiles XML
-          desde una interfaz más clara, con soporte para cifrado opcional y sincronización remota.
+          Una solución robusta para la creación, visualización y distribución de perfiles XML
+          con seguridad mejorada, respaldos automáticos y una interfaz moderna.
         </p>
         <div class="hero__actions">
-          <a href="#perfiles" class="button button--primary">Ver perfiles</a>
-          <a href="#registro" class="button button--secondary">Crear perfil XML</a>
+          <a href="#perfiles" class="button button--primary">
+            <i class="fa-solid fa-users"></i> Ver perfiles
+          </a>
+          <a href="#registro" class="button button--secondary">
+            <i class="fa-solid fa-plus-circle"></i> Crear perfil XML
+          </a>
         </div>
       </div>
       <aside class="status-card">
-        <h2>Estado de integraciones</h2>
+        <h2><i class="fa-solid fa-satellite-dish"></i> Estado de integraciones</h2>
         <div id="integrationStatus" class="status-list">
           <div class="status-item">Cargando estado de Gmail y Google Drive...</div>
         </div>
@@ -65,19 +69,19 @@
 
         <form id="registroForm" class="form-grid">
           <label>
-            <span>Nombre completo</span>
-            <input type="text" name="nombre" required />
+            <span><i class="fa-solid fa-user"></i> Nombre completo</span>
+            <input type="text" name="nombre" placeholder="Ej: Adrian Garcia" required />
           </label>
           <label>
-            <span>Edad</span>
-            <input type="number" name="edad" min="18" required />
+            <span><i class="fa-solid fa-calendar"></i> Edad</span>
+            <input type="number" name="edad" min="18" placeholder="18+" required />
           </label>
           <label>
-            <span>País</span>
-            <input type="text" name="pais" required />
+            <span><i class="fa-solid fa-globe"></i> País</span>
+            <input type="text" name="pais" placeholder="Ej: España" required />
           </label>
           <label>
-            <span>Estado sentimental</span>
+            <span><i class="fa-solid fa-heart-pulse"></i> Estado sentimental</span>
             <select name="estado" required>
               <option value="">Selecciona una opción</option>
               <option value="Soltero/a">Soltero/a</option>
@@ -87,15 +91,15 @@
             </select>
           </label>
           <label class="form-grid__full">
-            <span>URL de imagen</span>
-            <input type="url" name="imagenUrl" required />
+            <span><i class="fa-solid fa-image"></i> URL de imagen de perfil</span>
+            <input type="url" name="imagenUrl" placeholder="https://ejemplo.com/foto.jpg" required />
           </label>
           <label>
-            <span>Teléfono o móvil</span>
-            <input type="tel" name="movil" required />
+            <span><i class="fa-solid fa-phone"></i> Teléfono o móvil</span>
+            <input type="tel" name="movil" placeholder="+34 000 000 000" required />
           </label>
           <label>
-            <span>Enviar XML a Gmail</span>
+            <span><i class="fa-solid fa-envelope"></i> Enviar XML a Gmail</span>
             <input
               type="email"
               name="destinoEmail"
@@ -103,20 +107,20 @@
             />
           </label>
           <label class="form-grid__full">
-            <span>Gustos e intereses</span>
-            <input type="text" name="gustos" required />
+            <span><i class="fa-solid fa-tags"></i> Gustos e intereses</span>
+            <input type="text" name="gustos" placeholder="Viajar, Música, Deportes..." required />
           </label>
           <label class="form-grid__full">
-            <span>Información personal</span>
-            <textarea name="info" rows="4" required></textarea>
+            <span><i class="fa-solid fa-comment-dots"></i> Información personal</span>
+            <textarea name="info" rows="4" placeholder="Cuéntanos un poco sobre ti..." required></textarea>
           </label>
           <label class="form-grid__full">
-            <span>Otros elementos</span>
-            <textarea name="otros" rows="3"></textarea>
+            <span><i class="fa-solid fa-circle-plus"></i> Otros elementos</span>
+            <textarea name="otros" rows="3" placeholder="Información adicional relevante..."></textarea>
           </label>
           <label class="checkbox-row form-grid__full">
             <input type="checkbox" name="cifrar" />
-            <span>Cifrar el XML antes de guardarlo y sincronizarlo</span>
+            <span><i class="fa-solid fa-shield-halved"></i> Cifrar el XML antes de guardarlo y sincronizarlo</span>
           </label>
           <div class="form-grid__full form-actions">
             <button class="button button--primary" type="submit">
@@ -137,23 +141,23 @@
         </div>
         <div class="info-grid">
           <article>
-            <h3>1. Crear</h3>
-            <p>El formulario genera un XML normalizado con identificador único y fecha de registro.</p>
+            <h3><i class="fa-solid fa-wand-magic-sparkles"></i> 1. Crear</h3>
+            <p>El formulario genera un XML normalizado con identificador único, fecha de registro y cifrado opcional.</p>
           </article>
           <article>
-            <h3>2. Enviar</h3>
-            <p>Si Gmail está configurado, el perfil puede enviarse directamente como adjunto XML.</p>
+            <h3><i class="fa-solid fa-paper-plane"></i> 2. Enviar</h3>
+            <p>Si Gmail está configurado, el perfil se envía instantáneamente como adjunto XML a los destinatarios.</p>
           </article>
           <article>
-            <h3>3. Sincronizar</h3>
-            <p>Si Google Drive está conectado, cada archivo queda sincronizado en la carpeta indicada.</p>
+            <h3><i class="fa-solid fa-cloud-arrow-up"></i> 3. Respaldar</h3>
+            <p>Sincronización automática con Google Drive en carpetas organizadas para un respaldo eficiente.</p>
           </article>
         </div>
       </section>
     </main>
 
     <footer class="footer">
-      <p>Dating XML Platform · Reorganizado para una gestión más clara del repositorio y de los perfiles XML.</p>
+      <p>Dating XML Platform &copy; 2026 · Plataforma Segura de Gestión de Perfiles XML.</p>
     </footer>
 
     <script src="/app.js" defer></script>
