@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Personas de Compañía</title>
+  <link rel="icon" type="image/png" href="citasxdev.png">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <div class="app-banner">
+      <div class="banner-content">
+        <img src="citasxdev.png" alt="CitasXdev Logo" class="banner-logo">
+        <span>Personas de Compañía</span>
+      </div>
+      <div class="banner-glow"></div>
+    </div>
+
+    <header class="header">
+      <div class="counter" id="counter-display">
+        <span id="current-count">1</span>/<span id="total-count">5</span>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button id="register-btn" class="icon-btn" aria-label="Registro">
+          <i class="fas fa-user-plus"></i>
+        </button>
+        <button id="added-btn" class="icon-btn" aria-label="Ver Agregados">
+          <i class="fas fa-address-book"></i>
+        </button>
+        <button id="reset-btn" class="icon-btn" aria-label="Reiniciar">
+          <i class="fas fa-undo-alt"></i>
+        </button>
+      </div>
+    </header>
+
+    <main id="discover-view" class="card-container">
+      <div id="profile-card" class="card"></div>
+      <div id="notification" class="notification hidden"></div>
+    </main>
+
+    <div id="added-view" class="added-container hidden">
+      <div class="added-header">
+        <button id="back-to-discover" class="back-btn"><i class="fas fa-arrow-left"></i> Descubrir</button>
+        <h2><i class="fas fa-address-book" style="color: #b185db;"></i> Agregados</h2>
+      </div>
+      <div id="added-list" class="added-list"></div>
+    </div>
+
+    <div class="actions" id="action-buttons">
+      <button id="block-btn" class="btn btn-block">
+        <i class="fas fa-ban"></i>Bloquear
+      </button>
+      <button id="add-btn" class="btn btn-add">
+        <i class="fas fa-user-plus"></i>Agregar
+      </button>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    <a href="https://t.me/CitasXdev" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+      <i class="fab fa-telegram-plane"></i>
+    </a>
+    <a href="https://www.facebook.com/profile.php?id=61570789520405" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+      <i class="fab fa-facebook-f"></i>
+    </a>
+  </footer>
+
+  <div id="register-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Únete a la comunidad</h2>
+      <form id="register-form">
+        <input type="text" id="reg-nombre" placeholder="Nombre completo *" required>
+        <input type="text" id="reg-descripcion" placeholder="Descripción corta *" required>
+        <input type="text" id="reg-pais" placeholder="País *" required>
+        <input type="tel" id="reg-movil" placeholder="Número móvil (WhatsApp) *" required>
+        <input type="number" id="reg-edad" placeholder="Edad *" min="18" max="99" required>
+        <button type="submit" class="btn btn-add" style="width:100%;">Enviar por WhatsApp</button>
+      </form>
+      <p class="modal-note">Tus datos se enviarán directamente a nuestro equipo.</p>
+    </div>
+  </div>
+
+  <script src="people.js"></script>
+  <script src="security.js"></script>
+  <script src="permisos.js"></script>
+  <script src="register.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

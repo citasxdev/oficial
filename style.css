@@ -1,0 +1,454 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #0c0b0e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 8px;
+}
+
+.app {
+  max-width: 400px;
+  width: 100%;
+  background: #1a181c;
+  border: 1px solid #2e2a32;
+  border-radius: 24px;
+  padding: 16px 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.6);
+  margin-bottom: 16px;
+}
+
+.app-banner {
+  background: linear-gradient(145deg, #2a1e33, #1e1825);
+  border-radius: 18px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #5e4a70;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 2px;
+}
+.banner-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #ede4ff;
+  font-weight: 600;
+  font-size: 1.25rem;
+  z-index: 1;
+}
+.banner-logo {
+  height: 38px;
+  width: auto;
+  border-radius: 8px;
+}
+.banner-glow {
+  position: absolute;
+  right: -20px;
+  top: -20px;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(180,130,220,0.25) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.app-footer {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  padding: 8px 0;
+  margin-top: 4px;
+}
+.app-footer a {
+  color: #b6a3cc;
+  font-size: 1.6rem;
+  transition: color 0.15s, transform 0.1s;
+}
+.app-footer a:hover {
+  color: #d9c4fc;
+  transform: scale(1.1);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.counter {
+  background: #2a262e;
+  padding: 4px 12px;
+  border-radius: 40px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #cbbfe0;
+  border: 1px solid #3f3847;
+}
+
+.icon-btn {
+  background: #1e1b22;
+  border: 1px solid #4a3f55;
+  width: 38px;
+  height: 38px;
+  border-radius: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #d2c4e6;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.icon-btn:hover {
+  background: #2f2838;
+  border-color: #9f7ec2;
+  color: #f0eaff;
+}
+
+.card-container {
+  position: relative;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  background: #1e1b22;
+  border: 1px solid #3c3345;
+  border-radius: 20px;
+  padding: 18px 16px 16px;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 6px 0 #0f0d12;
+}
+
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.profile-avatar {
+  text-align: center;
+  margin-bottom: 16px;
+}
+.profile-avatar img {
+  width: 100px;
+  height: 100px;
+  border-radius: 60px;
+  object-fit: cover;
+  border: 2px solid #9f7ec2;
+  background: #26212b;
+}
+.profile-avatar i.fa-user-circle {
+  font-size: 4.5rem;
+  color: #a28ab7;
+  background: #26212b;
+  padding: 10px;
+  border-radius: 60px;
+  border: 1px solid #4d3f5e;
+}
+.profile-name {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ede4ff;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.verified-badge {
+  color: #1e90ff;
+  font-size: 1.2rem;
+  background: rgba(30,144,255,0.15);
+  padding: 2px 6px;
+  border-radius: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid #1e90ff40;
+}
+.verified-badge i {
+  font-size: 1rem;
+}
+.profile-badge {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+  font-size: 0.95rem;
+  color: #b6a3cc;
+}
+.profile-badge i {
+  margin-right: 4px;
+  color: #b185db;
+  width: 16px;
+}
+.profile-desc {
+  background: #151218;
+  padding: 12px 14px;
+  border-radius: 16px;
+  margin: 12px 0 16px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #dbcef0;
+  border-left: 4px solid #9f7ec2;
+}
+.profile-contact {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid #3f354a;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: #c2b0da;
+}
+.profile-contact i {
+  color: #b185db;
+  width: 20px;
+}
+
+.notification {
+  position: absolute;
+  bottom: 20px;
+  left: 16px;
+  right: 16px;
+  background: #1e1b22;
+  color: #f0eaff;
+  padding: 12px 14px;
+  border-radius: 60px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 0.9rem;
+  opacity: 0;
+  pointer-events: none;
+  border: 1px solid #6a4f85;
+  transition: opacity 0.2s;
+}
+.notification.show {
+  opacity: 1;
+}
+.notification.match {
+  background: #2b1f33;
+  border-color: #b185db;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+.btn {
+  background: #1a181c;
+  border: 1px solid #524763;
+  border-radius: 60px;
+  padding: 10px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #e0d2f2;
+  transition: all 0.15s;
+}
+.btn-block {
+  color: #bcb0cc;
+  border-color: #4a3f55;
+}
+.btn-block:hover {
+  background: #2a2432;
+  border-color: #b185db;
+}
+.btn-add {
+  background: #6d3f9c;
+  border-color: #a277c2;
+  color: #ffffff;
+}
+.btn-add:hover {
+  background: #8256b0;
+}
+.btn i {
+  font-size: 1.1rem;
+}
+.btn:disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.added-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 420px;
+}
+.added-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.back-btn {
+  background: none;
+  border: 1px solid #524763;
+  border-radius: 40px;
+  padding: 6px 14px;
+  color: #cdbde6;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.back-btn:hover {
+  background: #26212b;
+  border-color: #9f7ec2;
+}
+.added-header h2 {
+  color: #e2d4fc;
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+.added-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 440px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.added-item {
+  background: #1e1b22;
+  border: 1px solid #3c3345;
+  border-radius: 18px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #e0d2f2;
+}
+.added-item img {
+  width: 48px;
+  height: 48px;
+  border-radius: 48px;
+  object-fit: cover;
+  border: 1px solid #9f7ec2;
+}
+.added-item i.fa-user-circle {
+  font-size: 2.8rem;
+  color: #a28ab7;
+}
+.added-info {
+  flex: 1;
+}
+.added-info h3 {
+  font-weight: 600;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.added-info p {
+  font-size: 0.85rem;
+  color: #b6a3cc;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+.added-contact {
+  font-family: monospace;
+  background: #151218;
+  padding: 2px 8px;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  color: #cbb3e6;
+}
+.empty-likes {
+  text-align: center;
+  color: #a394b8;
+  padding: 40px 20px;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(8, 6, 10, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal.hidden {
+  display: none;
+}
+.modal-content {
+  background: #1a181c;
+  padding: 20px;
+  border-radius: 24px;
+  width: 90%;
+  max-width: 340px;
+  position: relative;
+  border: 1px solid #524763;
+  color: #e0d2f2;
+}
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  font-size: 28px;
+  cursor: pointer;
+  color: #b6a3cc;
+}
+#register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 18px;
+}
+#register-form input {
+  padding: 10px;
+  border: 1px solid #4a3f55;
+  border-radius: 40px;
+  background: #0f0d12;
+  color: #f0eaff;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+}
+#register-form input::placeholder {
+  color: #7e6f96;
+}
+.modal-note {
+  margin-top: 12px;
+  font-size: 0.75rem;
+  color: #a394b8;
+  text-align: center;
+}
+
+@media (max-width: 380px) {
+  .app { padding: 12px 10px; }
+  .btn { padding: 8px 18px; }
+  .profile-avatar img { width: 80px; height: 80px; }
+}
