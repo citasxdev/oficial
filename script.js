@@ -6,7 +6,8 @@
     index: 0,
     list:  [],
     timer: null,
-    view:  "discover"
+    view:  "discover",
+    addedCount: 0
   };
 
   /* ── Referencias al DOM ── */
@@ -110,9 +111,14 @@
     /* Actualizar aria-label del botón agregar con el nombre actual */
     DOM.addBtn.setAttribute("aria-label", `Agregar a ${sanitizeText(p.nombre)}`);
     DOM.blockBtn.setAttribute("aria-label", `Bloquear a ${sanitizeText(p.nombre)}`);
+
+    /* Feedback audiovisual */
+    if (window.CitasAudio) {
+      CitasAudio.play("pop");
+    }
   }
 
-  /* ── Notificación flotante ── */
+  /* ── Notificación flotante con audio ── */
   function showNotification(msg, isSuccess = false) {
     if (STATE.timer) clearTimeout(STATE.timer);
     const noti = DOM.notification;
@@ -123,6 +129,12 @@
     /* Anunciar a lectores de pantalla */
     noti.setAttribute("role", "status");
     noti.setAttribute("aria-live", "polite");
+
+    /* Feedback audiovisual */
+    if (window.CitasAudio) {
+      CitasAudio.feedback(isSuccess ? "match" : "error");
+    }
+
     STATE.timer = setTimeout(() => {
       noti.classList.remove("show");
       STATE.timer = setTimeout(() => noti.classList.add("hidden"), 200);
@@ -144,6 +156,13 @@
     if (STATE.index >= STATE.list.length) return;
     const person = STATE.list[STATE.index];
     if (window.Permisos) Permisos.registrarAccion(person.id, "add");
+    STATE.addedCount++;
+
+    /* Actualizar badge de la app */
+    if (window.CitasPWA) {
+      CitasPWA.updateBadge(STATE.addedCount);
+    }
+
     showNotification(`✅ ${person.nombre} agregado a tu lista`, true);
     nextProfile();
   }
@@ -164,6 +183,7 @@
     try { history = raw ? JSON.parse(raw) : []; } catch (_) { history = []; }
     const addedIds = history.filter(h => h.accion === "add").map(h => h.id);
     const allPeople = (typeof peopleData !== "undefined") ? peopleData : [];
+    STATE.addedCount = addedIds.length;
     return allPeople.filter(p => addedIds.includes(p.id));
   }
 
@@ -250,6 +270,12 @@
       if (e.key === "ArrowRight" || e.key === "Enter") onAdd();
       if (e.key === "ArrowLeft"  || e.key === "Escape") onBlock();
     });
+
+    /* Actualizar badge inicial */
+    if (window.CitasPWA) {
+      getAddedProfiles();
+      CitasPWA.updateBadge(STATE.addedCount);
+    }
   }
 
   init();
