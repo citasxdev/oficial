@@ -11,31 +11,48 @@
 
 "use strict";
 
-const APP_VERSION   = "v2.0.0";
+const APP_VERSION   = "v2.1.0";
 const CACHE_SHELL   = `citasxdev-shell-${APP_VERSION}`;
 const CACHE_IMAGES  = `citasxdev-images-${APP_VERSION}`;
 const CACHE_DYNAMIC = `citasxdev-dynamic-${APP_VERSION}`;
 
 const BASE_PATH = "/oficial";
 
-/* ── Recursos del App Shell (precache) ── */
+/* ── Recursos del App Shell (precache completo) ── */
 const SHELL_ASSETS = [
   `${BASE_PATH}/`,
   `${BASE_PATH}/index.html`,
   `${BASE_PATH}/style.css`,
+  `${BASE_PATH}/splash.js`,
   `${BASE_PATH}/script.js`,
+  `${BASE_PATH}/audio.js`,
+  `${BASE_PATH}/pwa.js`,
+  `${BASE_PATH}/pwa-enhanced.js`,
   `${BASE_PATH}/people.js`,
   `${BASE_PATH}/security.js`,
   `${BASE_PATH}/permisos.js`,
   `${BASE_PATH}/register.js`,
   `${BASE_PATH}/legal.js`,
+  `${BASE_PATH}/assets/icons/custom-icons.js`,
   `${BASE_PATH}/manifest.json`,
   `${BASE_PATH}/citasxdev.png`,
   `${BASE_PATH}/offline.html`,
+  /* Iconos PWA - Todos los tamaños */
+  `${BASE_PATH}/icons/icon-72x72.png`,
+  `${BASE_PATH}/icons/icon-96x96.png`,
+  `${BASE_PATH}/icons/icon-128x128.png`,
+  `${BASE_PATH}/icons/icon-144x144.png`,
+  `${BASE_PATH}/icons/icon-152x152.png`,
   `${BASE_PATH}/icons/icon-192x192.png`,
+  `${BASE_PATH}/icons/icon-384x384.png`,
   `${BASE_PATH}/icons/icon-512x512.png`,
   `${BASE_PATH}/icons/icon-maskable-192x192.png`,
-  `${BASE_PATH}/icons/icon-maskable-512x512.png`
+  `${BASE_PATH}/icons/icon-maskable-512x512.png`,
+  /* Efectos de sonido */
+  `${BASE_PATH}/assets/audio/pop.mp3`,
+  `${BASE_PATH}/assets/audio/match.mp3`,
+  `${BASE_PATH}/assets/audio/error.mp3`,
+  `${BASE_PATH}/assets/audio/notify.mp3`
 ];
 
 /* ── Instalación: precachear el App Shell ── */
