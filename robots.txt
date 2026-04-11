@@ -1,0 +1,25 @@
+# CitasXdev — robots.txt
+# https://citasxdev.github.io/oficial/
+
+User-agent: *
+Allow: /oficial/
+Allow: /oficial/index.html
+Allow: /oficial/citasxdev.png
+Allow: /oficial/icons/
+Allow: /oficial/manifest.json
+Allow: /oficial/sitemap.xml
+Disallow: /oficial/sw.js
+Disallow: /oficial/offline.html
+
+# Sitemap
+Sitemap: https://citasxdev.github.io/oficial/sitemap.xml
+
+# Crawl-delay para bots no prioritarios
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Disallow: /
