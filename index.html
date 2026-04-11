@@ -30,9 +30,6 @@
         <button id="added-btn" class="icon-btn" aria-label="Ver Agregados">
           <i class="fas fa-address-book"></i>
         </button>
-        <button id="reset-btn" class="icon-btn" aria-label="Reiniciar">
-          <i class="fas fa-undo-alt"></i>
-        </button>
       </div>
     </header>
 
@@ -66,6 +63,9 @@
     <a href="https://www.facebook.com/profile.php?id=61570789520405" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
       <i class="fab fa-facebook-f"></i>
     </a>
+    <a href="#" id="legal-link" aria-label="Privacidad y términos">
+      <i class="fas fa-shield-alt"></i>
+    </a>
   </footer>
 
   <div id="register-modal" class="modal hidden">
@@ -78,9 +78,23 @@
         <input type="text" id="reg-pais" placeholder="País *" required>
         <input type="tel" id="reg-movil" placeholder="Número móvil (WhatsApp) *" required>
         <input type="number" id="reg-edad" placeholder="Edad *" min="18" max="99" required>
-        <button type="submit" class="btn btn-add" style="width:100%;">Enviar por WhatsApp</button>
+        <button type="submit" class="btn btn-add" id="register-submit-btn" style="width:100%;">Enviar por WhatsApp</button>
       </form>
       <p class="modal-note">Tus datos se enviarán directamente a nuestro equipo.</p>
+    </div>
+  </div>
+
+  <div id="legal-modal" class="modal hidden">
+    <div class="modal-content legal-content">
+      <span class="close-modal" id="close-legal">&times;</span>
+      <h2>Privacidad y Términos</h2>
+      <div class="legal-text">
+        <h3>Política de Privacidad</h3>
+        <p>Esta plataforma no almacena datos personales más allá de los necesarios para mostrar perfiles. Los números de teléfono son públicos en los perfiles y cualquier interacción se realiza externamente a través de WhatsApp. No compartimos información con terceros.</p>
+        <h3>Términos de Uso</h3>
+        <p>El uso de esta aplicación implica la aceptación de los términos de uso. No nos hacemos responsables del contenido de las conversaciones externas. Está prohibido el uso de la plataforma para acoso.</p>
+        <p><strong>Contacto:</strong> citasxdev@gmail.com</p>
+      </div>
     </div>
   </div>
 
@@ -88,6 +102,7 @@
   <script src="security.js"></script>
   <script src="permisos.js"></script>
   <script src="register.js"></script>
+  <script src="legal.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

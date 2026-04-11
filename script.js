@@ -14,7 +14,6 @@
     card: document.getElementById('profile-card'),
     addBtn: document.getElementById('add-btn'),
     blockBtn: document.getElementById('block-btn'),
-    resetBtn: document.getElementById('reset-btn'),
     addedBtn: document.getElementById('added-btn'),
     backBtn: document.getElementById('back-to-discover'),
     notification: document.getElementById('notification'),
@@ -132,20 +131,15 @@
     nextProfile();
   }
 
-  function onReset() {
-    if (window.Permisos) Permisos.limpiarHistorial();
-    loadData();
-    STATE.index = 0;
-    renderProfile();
-    showNotification('🔄 Lista reiniciada', false);
-    if (STATE.view === 'added') switchView('discover');
-  }
-
   function getAddedProfiles() {
     const history = window.Permisos ? JSON.parse(localStorage.getItem('citasimple_history') || '[]') : [];
     const addedIds = history.filter(h => h.accion === 'add').map(h => h.id);
     const allPeople = (typeof peopleData !== 'undefined') ? peopleData : [];
     return allPeople.filter(p => addedIds.includes(p.id));
+  }
+
+  function cleanPhoneNumber(phone) {
+    return phone.replace(/[^\d+]/g, '').replace(/^\+/, '');
   }
 
   function renderAdded() {
@@ -160,6 +154,10 @@
         ? `<img src="${sanitizeText(p.imagen)}" alt="${sanitizeText(p.nombre)}" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' viewBox=\\'0 0 100 100\\'%3E%3Ccircle cx=\\'50\\' cy=\\'50\\' r=\\'45\\' fill=\\'%236d3f9c\\'/%3E%3Ctext x=\\'50\\' y=\\'67\\' font-size=\\'50\\' text-anchor=\\'middle\\' fill=\\'%23f0eaff\\'%3E👤%3C/text%3E%3C/svg%3E';">`
         : `<i class="fas fa-user-circle"></i>`;
       const verifiedIcon = p.verificado ? '<i class="fas fa-check-circle" style="color:#1e90ff; margin-left:4px;"></i>' : '';
+      
+      const phoneClean = cleanPhoneNumber(p.movil);
+      const whatsappUrl = `https://wa.me/${phoneClean}`;
+
       html += `
         <div class="added-item">
           ${avatarHtml}
@@ -168,6 +166,9 @@
             <p><i class="fas fa-map-pin"></i> ${sanitizeText(p.pais)} · ${sanitizeText(p.descripcion)}</p>
             <span class="added-contact"><i class="fas fa-mobile-alt"></i> ${sanitizeText(p.movil)}</span>
           </div>
+          <a href="${whatsappUrl}" target="_blank" rel="noopener noreferrer" class="chat-btn" title="Chatear por WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+          </a>
         </div>
       `;
     });
@@ -197,7 +198,6 @@
 
     DOM.addBtn.addEventListener('click', onAdd);
     DOM.blockBtn.addEventListener('click', onBlock);
-    DOM.resetBtn.addEventListener('click', onReset);
     DOM.addedBtn.addEventListener('click', () => switchView('added'));
     DOM.backBtn.addEventListener('click', () => switchView('discover'));
   }

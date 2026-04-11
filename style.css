@@ -81,6 +81,12 @@ body {
   color: #d9c4fc;
   transform: scale(1.1);
 }
+.app-footer a i.fa-shield-alt {
+  font-size: 1.4rem;
+}
+.app-footer a:hover i.fa-shield-alt {
+  color: #d9c4fc;
+}
 
 .header {
   display: flex;
@@ -389,6 +395,27 @@ body {
   padding: 40px 20px;
 }
 
+.chat-btn {
+  background: #25D366;
+  color: white;
+  width: 42px;
+  height: 42px;
+  border-radius: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  transition: all 0.15s;
+  border: 1px solid #1da851;
+  margin-left: auto;
+  text-decoration: none;
+}
+.chat-btn:hover {
+  background: #20b859;
+  transform: scale(1.05);
+  color: white;
+}
+
 .modal {
   position: fixed;
   top: 0;
@@ -445,6 +472,26 @@ body {
   font-size: 0.75rem;
   color: #a394b8;
   text-align: center;
+}
+
+.legal-content {
+  max-width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.legal-text {
+  color: #dbcef0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-top: 16px;
+}
+.legal-text h3 {
+  color: #e2d4fc;
+  margin: 16px 0 8px;
+  font-size: 1.1rem;
+}
+.legal-text p {
+  margin-bottom: 12px;
 }
 
 @media (max-width: 380px) {
